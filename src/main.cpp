@@ -8,9 +8,10 @@ class Expense
 private:
     double amount;
     string category;
+    static int count;
 
 public:
-    Expense(double am, string cat) : amount(am), category(cat) {}
+    Expense(double am, string cat) : amount(am), category(cat) { count++; }
 
     void show() const
     {
@@ -35,7 +36,20 @@ public:
             amount = am;
         }
     }
+
+    static int getCount()
+    {
+        return count;
+    }
+
+    ~Expense()
+    {
+        count--;
+        cout << "Destroyed " << category << endl;
+    }
 };
+
+int Expense::count = 0;
 
 int main()
 {
@@ -53,7 +67,14 @@ int main()
 
     e3.setAmount(100);
 
+    cout << Expense::getCount() << endl;
 
+    {
+        Expense temp(10, "TEST");
+        cout << Expense::getCount() << endl;
+    }
+
+    cout << Expense::getCount() << endl;
 
     return 0;
 }
