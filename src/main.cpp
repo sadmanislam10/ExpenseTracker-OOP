@@ -3,20 +3,43 @@
 
 using namespace std;
 
+enum class Category
+{
+    Food,
+    Transport,
+    Rent,
+    Other
+};
+
+string categoryToString(Category c)
+{
+    switch (c)
+    {
+    case Category::Food:
+        return "Food";
+    case Category::Transport:
+        return "Transport";
+    case Category::Rent:
+        return "Rent";
+    default:
+        return "Other";
+    }
+}
+
 class Expense
 {
 private:
     double amount;
-    string category;
+    Category category;
     static int count;
 
 public:
-    Expense(double am, string cat) : amount(am), category(cat) { count++; }
+    Expense(double am, Category cat) : amount(am), category(cat) { count++; }
 
     void show() const
     {
         cout << "Amount: " << amount << endl;
-        cout << "Category: " << category << endl;
+        cout << "Category: " << categoryToString(category) << endl;
     }
 
     double getAmount() const
@@ -24,7 +47,7 @@ public:
         return amount;
     }
 
-    string getCategory() const
+    Category getCategory() const
     {
         return category;
     }
@@ -45,7 +68,6 @@ public:
     ~Expense()
     {
         count--;
-        cout << "Destroyed " << category << endl;
     }
 };
 
@@ -53,7 +75,7 @@ int Expense::count = 0;
 
 int main()
 {
-    Expense e1(150.5, "Food");
+    Expense e1(150.5, Category::Food);
 
     e1.show();
 
@@ -62,7 +84,7 @@ int main()
 
     cout << e1.getAmount() << endl;
 
-    Expense e3(50, "Bus");
+    Expense e3(50, Category::Other);
     e3.show();
 
     e3.setAmount(100);
@@ -70,7 +92,7 @@ int main()
     cout << Expense::getCount() << endl;
 
     {
-        Expense temp(10, "TEST");
+        Expense temp(10,Category::Transport);
         cout << Expense::getCount() << endl;
     }
 
